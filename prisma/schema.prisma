@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  COUNSELOR
+  PARENT
+}
+
+enum AttendanceType {
+  CHECK_IN
+  CHECK_OUT
+}
+
+enum OutOfAreaType {
+  RESTROOM_OUT
+  RESTROOM_IN
+  FIELD_TRIP_DEPART
+  FIELD_TRIP_RETURN
+  OTHER_OUT
+  OTHER_IN
+}
+
+model Organization {
+  id                 String @id @default(cuid())
+  name               String
+  code               String @unique
+  restroomMaxMinutes Int    @default(10)
+  allowCounselorOverride Boolean @default(false)
+  kioskAutoToggle    Boolean @default(true)
+  users              User[]
+  campers            Camper[]
+  stations           ScanStation[]
+  incidentNotes      IncidentNote[]
+}
+
+model User {
+  id           String @id @default(cuid())
+  email        String @unique
+  name         String
+  passwordHash String
+  role         Role
+  orgId        String
+  org          Organization @relation(fields: [orgId], references: [id])
+  attendance   AttendanceEvent[]
+  outEvents    OutOfAreaEvent[]
+}
+
+model ParentCamper {
+  id       String @id @default(cuid())
+  parentId String
+  camperId String
+  parent   User   @relation(fields: [parentId], references: [id])
+  camper   Camper @relation(fields: [camperId], references: [id])
+  @@unique([parentId, camperId])
+}
+
+model Camper {
+  id              String @id @default(cuid())
+  orgId           String
+  org             Organization @relation(fields: [orgId], references: [id])
+  name            String
+  camperCode      String @unique
+  emergencyPhone  String
+  pickupPinHash   String
+  attendance      AttendanceEvent[]
+  outOfAreaEvents OutOfAreaEvent[]
+  enrollments     Enrollment[]
+  scanTokens      ScanToken[]
+  parentLinks     ParentCamper[]
+}
+
+model ScanToken {
+  id         String   @id @default(cuid())
+  camperId   String
+  camper     Camper   @relation(fields: [camperId], references: [id])
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  revokedAt  DateTime?
+}
+
+model ScanStation {
+  id        String @id @default(cuid())
+  orgId     String
+  org       Organization @relation(fields: [orgId], references: [id])
+  name      String
+  stationType String
+}
+
+model AttendanceEvent {
+  id          String @id @default(cuid())
+  orgId       String
+  camperId    String
+  type        AttendanceType
+  timestamp   DateTime @default(now())
+  actorUserId String
+  overrideReason String?
+  deviceLabel String?
+  camper      Camper @relation(fields: [camperId], references: [id])
+  actor       User   @relation(fields: [actorUserId], references: [id])
+}
+
+model OutOfAreaEvent {
+  id                String @id @default(cuid())
+  orgId             String
+  camperId          String
+  type              OutOfAreaType
+  timestamp         DateTime @default(now())
+  actorUserId       String
+  deviceLabel       String?
+  notes             String?
+  resolvedByEventId String?
+  durationSeconds   Int?
+  camper            Camper @relation(fields: [camperId], references: [id])
+  actor             User   @relation(fields: [actorUserId], references: [id])
+}
+
+model Week {
+  id        String @id @default(cuid())
+  orgId     String
+  startsOn  DateTime
+  endsOn    DateTime
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id       String @id @default(cuid())
+  camperId String
+  weekId   String
+  daysMask String
+  camper   Camper @relation(fields: [camperId], references: [id])
+  week     Week   @relation(fields: [weekId], references: [id])
+}
+
+model IncidentNote {
+  id        String @id @default(cuid())
+  orgId     String
+  camperId  String
+  date      DateTime
+  note      String
+  createdBy String
+  org       Organization @relation(fields: [orgId], references: [id])
+}
