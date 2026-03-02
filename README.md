@@ -49,6 +49,9 @@ npm run dev
 - `/reports/attendance.csv`
 - `/reports/daily-roster`
 
+
+> CI uses `npm ci` when `package-lock.json` exists, and falls back to `npm install` otherwise.
+
 ## Commands
 - `npm run dev`
 - `npm run build`
