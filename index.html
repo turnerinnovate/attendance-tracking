@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Summer Camp Attendance Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Summer Camp Attendance Tracker</h1>
+      <p>Track daily attendance week by week for every camper.</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Camp Setup</h2>
+        <form id="camp-config-form" class="inline-form">
+          <label>
+            Number of weeks
+            <input type="number" id="week-count" min="1" max="12" value="8" required />
+          </label>
+          <label>
+            Days per week
+            <select id="day-count">
+              <option value="5" selected>5 (Mon–Fri)</option>
+              <option value="7">7 (Every day)</option>
+            </select>
+          </label>
+          <button type="submit">Apply</button>
+        </form>
+        <p id="config-note" class="note"></p>
+      </section>
+
+      <section class="card">
+        <h2>Campers</h2>
+        <form id="camper-form" class="inline-form">
+          <label class="grow">
+            Camper name
+            <input type="text" id="camper-name" placeholder="Add camper..." required />
+          </label>
+          <button type="submit">Add Camper</button>
+        </form>
+        <ul id="camper-list" class="list"></ul>
+      </section>
+
+      <section class="card">
+        <div class="controls">
+          <h2>Attendance Grid</h2>
+          <div class="inline-form compact">
+            <label>
+              Week
+              <select id="week-select"></select>
+            </label>
+          </div>
+        </div>
+        <div id="attendance-wrapper" class="table-wrapper"></div>
+      </section>
+
+      <section class="card">
+        <h2>Summary</h2>
+        <div id="summary"></div>
+      </section>
+    </main>
+
+    <template id="status-template">
+      <select class="status-select">
+        <option value="present">Present</option>
+        <option value="absent">Absent</option>
+        <option value="late">Late</option>
+        <option value="excused">Excused</option>
+      </select>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>

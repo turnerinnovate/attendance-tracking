@@ -1,0 +1,169 @@
+:root {
+  color-scheme: light;
+  --bg: #f2f7ff;
+  --card: #ffffff;
+  --line: #dbe4f5;
+  --text: #10203a;
+  --muted: #50607c;
+  --accent: #305bdb;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+  background: linear-gradient(140deg, #f6faff, #eef3ff);
+  color: var(--text);
+}
+
+header {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2 {
+  margin: 0 0 0.5rem;
+}
+
+main {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  box-shadow: 0 10px 26px rgba(27, 58, 123, 0.06);
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.inline-form.compact {
+  gap: 0.5rem;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.grow {
+  flex: 1;
+}
+
+input,
+select,
+button {
+  border-radius: 0.5rem;
+  border: 1px solid #b7c8ea;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.95rem;
+  background: white;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.93;
+}
+
+.note {
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.table-wrapper {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th,
+td {
+  border: 1px solid var(--line);
+  padding: 0.4rem;
+  text-align: left;
+}
+
+th {
+  background: #edf3ff;
+}
+
+.status-select {
+  width: 100%;
+}
+
+.legend {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.legend span {
+  font-size: 0.95rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.present { background: #1f9d55; }
+.absent { background: #d43f3f; }
+.late { background: #b57c00; }
+.excused { background: #6b60d8; }
+
+.empty {
+  color: var(--muted);
+}
