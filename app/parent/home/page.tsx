@@ -1,0 +1,1 @@
+export default function ParentHome(){ return <div className='bg-white p-4 rounded border'><h1 className='text-2xl font-bold'>Parent Home</h1><p>Drop-off/pick-up history and PIN management.</p></div>; }
